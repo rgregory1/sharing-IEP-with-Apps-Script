@@ -30,6 +30,11 @@ There is a plugin attached to this repository that will allow the API to work, m
 
 You will need to add your own client id and client secret to the Apps Script.
 
+## Automation
+I set the triggers to fire twice a day and it handles the sharing pretty seamlessly.
+
+![My triggers](https://github.com/rgregory1/sharing-IEP-with-Apps-Script/blob/main/triggers.png?raw=true)
+
 ## THIS IS NOT A FINISHED PRODUCT
 I have tried very hard to document what is needed and added many lines of comments in the Apps Script code to make it easy to understand what is going on.  
 
