@@ -13,7 +13,7 @@ let token_type = "";
 let tokenExpiresIn = "";
 
 let pageSize = 100;
-let url = 'https://missisquoi.powerschool.com/ws/schema/query/org.mvsdschools.gcsync.students'
+let url = 'https://yourschool.powerschool.com/ws/schema/query/org.yourschool.gcsync.students'
 
 /*****************************************************
  *   
@@ -24,7 +24,7 @@ let url = 'https://missisquoi.powerschool.com/ws/schema/query/org.mvsdschools.gc
  * 
  ******************************************************/
 function getConnection() {
-  let authUrl = "https://missisquoi.powerschool.com/oauth/access_token";
+  let authUrl = "https://yourschool.powerschool.com/oauth/access_token";
   let options = {
       "method": "post",
       "headers": {
