@@ -11,15 +11,16 @@ This project is a Google Apps Script program that
 An example Google Sheets spreadsheet can be found here:
 https://docs.google.com/spreadsheets/d/1TU4FJlAj0AovTc6UOs3uZoFelIBnKCgRCnuvrPdjIKg/edit?usp=sharing
 
-Google folder structure should look like this:
+Google folder structure should look like the heirachy below.  
+Files should have the PowerSchool student number first and have at least a space after the number.
 
-MasterFolder
--SMITH
---12345 Joey Tribiani.pdf
---12346 Chandler Bing.pdf
--JONES
---12347 Pheobe Buffay.pdf
--504
---12348 Monica Geller.pdf
+- MasterFolder
+  - SMITH
+    - 12345 Joey Tribiani.pdf
+    - 12346 Chandler Bing.pdf
+  - JONES
+    - 12347 Pheobe Buffay.pdf
+  - 504
+    - 12348 Monica Geller.pdf
 
 
