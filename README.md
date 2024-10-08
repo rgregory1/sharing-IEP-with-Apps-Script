@@ -8,6 +8,8 @@ This project is a Google Apps Script program that
 2. connects to PowerSchool through the API and grabs every student's current sections and teacher email
 3. goes file by file and shares the files with all current teachers and removes teachers who don't have the student currently
 
+The idea is, you add the IEP/504/EST into the appropriate folder, make sure the student's PS student_number is the first part of the PDF name and the script shares it appropriately.  
+
 ## Google Requirements
 An example Google Sheets spreadsheet can be found here:
 https://docs.google.com/spreadsheets/d/1TU4FJlAj0AovTc6UOs3uZoFelIBnKCgRCnuvrPdjIKg/edit?usp=sharing
