@@ -1,51 +1,3 @@
-/*****************************************************
- *   
- *    Globally assigned variables
- * 
- ******************************************************/
-
-
-let clientID = "youwish-idpostthis-herebutyou-cantrythis";
-let clientSecret = "thesecret-isgonnabe-hardtocomebyaswell";
-
-let strAccessToken = "";
-let token_type = "";
-let tokenExpiresIn = "";
-
-let pageSize = 100;
-let url = 'https://yourschool.powerschool.com/ws/schema/query/org.yourschool.gcsync.students'
-
-/*****************************************************
- *   
- *    FUNCTION: getConnection()
- *    This function will make the request for a token
- *    from the PS server and store it, the type, and the
- *    expiration time in their global variables
- * 
- ******************************************************/
-function getConnection() {
-  let authUrl = "https://yourschool.powerschool.com/oauth/access_token";
-  let options = {
-      "method": "post",
-      "headers": {
-          "Authorization": "Basic " + Utilities.base64Encode(clientID+":"+clientSecret)
-      },
-      "payload": {
-        "grant_type": "client_credentials"
-      },
-      "muteHttpExceptions": true
-  };
-  let response = UrlFetchApp.fetch(authUrl, options);
-  let data = JSON.parse(response.getContentText());
-
-  strAccessToken = data.access_token;
-  token_type = data.token_type;
-  tokenExpiresIn = data.expires_in;
-
-  Logger.log(strAccessToken);
-
-}
-
 
 /*****************************************************
  *   
@@ -58,10 +10,18 @@ function getConnection() {
 
 function getCurrentPSSectionEnrollments(){
 
-  if (strAccessToken == "")
-  {
-    getConnection();
-  }
+  const token = secretManagerLibrary.ensureFreshToken(
+                    '1020400423324',
+                    'gc_sync_clientID',
+                    'gc_sync_clientsecret',
+                    'gc_sync_token'
+                    )
+
+  console.log(token)
+
+  let pageSize = 200;
+  const url = 'https://missisquoi.powerschool.com/ws/schema/query/org.mvsdschools.services_share.students'
+
 
   // Clear the data currently on the sheet to prepare for the new incoming data
   
@@ -73,12 +33,14 @@ function getCurrentPSSectionEnrollments(){
   let options = {
     "method":"post",
     "headers":{
-      "Authorization": token_type + " " + strAccessToken,
+      "Authorization": "Bearer " + token,
       "Accept": "application/json",
       "Content-Type": "application/json"
     },
+    // "muteHttpExceptions": true
     
   }
+
 
   // Since PowerQueries are paginated, we need to begin by getting the number of total
   //   results so we can calculate the number of pages in our result.
@@ -124,6 +86,9 @@ function getCurrentPSSectionEnrollments(){
   if (cellData.length > 0)
   {
 
+    // filter for specific schools
+    cellData = cellData.filter(x => x[11] == '295')
+
     const headers = 
       ['studentId','stu_first','stu_last','stu_email','sec_id','sec_name','teacher_last','teacher_number','sec_start','sec_end','teacher_email','school_id']
     
@@ -165,7 +130,7 @@ function addCoteachersToClasses(){
     ...data.map(obj => Object.values(obj)) // Add the object values
     ];
 
-  console.log(arrayOfArrays);
+  // console.log(arrayOfArrays);
   // console.log(data)
 
   let ss = SpreadsheetApp.getActiveSpreadsheet()
@@ -173,3 +138,12 @@ function addCoteachersToClasses(){
   dataSheet.clear()
   dataSheet.getRange(1,1,arrayOfArrays.length,arrayOfArrays[0].length).setValues(arrayOfArrays);
 }
+
+
+
+
+
+
+
+
+
