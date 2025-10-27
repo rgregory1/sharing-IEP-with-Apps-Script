@@ -95,7 +95,7 @@ function getCurrentPSSectionEnrollments(){
   //   array by constructing a 1-D array, tempRow, and then pushing that onto our cellData array.
   for (let page=1; page<=pageCount; page++)
   {
-    
+    console.log(page)
     let result = UrlFetchApp.fetch(`${url}?pagesize=${pageSize}&page=${page}`, options);
     result = JSON.parse(result).record;
  
@@ -131,4 +131,45 @@ function getCurrentPSSectionEnrollments(){
 
     dataSheet.getRange(1,1,cellData.length,cellData[0].length).setValues(cellData);
   }
+
+  addCoteachersToClasses()
+}
+
+
+function addCoteachersToClasses(){
+
+  
+
+  let data =  dataRangeToArray('data')
+  let coteachers = dataRangeToArray('coteachers')
+
+  if(coteachers.length == 0){
+    return
+  }
+
+  data.forEach(line => {
+
+    let thisSection = coteachers.find(x => x.sec_id == line.sec_id)
+
+    if (thisSection){
+      line.teacher_email = line.teacher_email + "," + thisSection.coteachers 
+    }
+  })
+
+  // Get the keys from the first object
+  const keys = Object.keys(data[0]);
+
+  // Convert objects to arrays of values and include the keys as the first element
+  const arrayOfArrays = [
+    keys, // Add the keys as the first element
+    ...data.map(obj => Object.values(obj)) // Add the object values
+    ];
+
+  console.log(arrayOfArrays);
+  // console.log(data)
+
+  let ss = SpreadsheetApp.getActiveSpreadsheet()
+  let dataSheet = ss.getSheetByName('data')
+  dataSheet.clear()
+  dataSheet.getRange(1,1,arrayOfArrays.length,arrayOfArrays[0].length).setValues(arrayOfArrays);
 }
