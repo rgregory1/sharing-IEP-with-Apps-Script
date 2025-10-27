@@ -1,4 +1,3 @@
-// const rootIepFolderId = '1tX3TT3-g1PZapPGhkug6zKgtXWoyOk60' // trial folder
 
 /**
  *  Main settings for the program, grab settings to be used during later functions
@@ -6,8 +5,8 @@
  */
 const settingsSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('settings')
 const settings = {
-  middle : settingsSheet.getRange('B11:B30').getValues().flat().filter(x => x !== ''),
-  high : settingsSheet.getRange('C11:C30').getValues().flat().filter(x => x !== ''),
+  swa : settingsSheet.getRange('B11:B30').getValues().flat().filter(x => x !== ''),
+  hes : settingsSheet.getRange('C11:C30').getValues().flat().filter(x => x !== ''),
   masterFolder : settingsSheet.getRange('B1').getValue(),
   isOn : settingsSheet.getRange('B2').getValue()
 }
