@@ -3,7 +3,6 @@
  */
 function shareFiles() {
   const ss = SpreadsheetApp.getActiveSpreadsheet()
-  // const fileSheet = ss.getSheetByName('files')
   const logSheet = ss.getSheetByName('log')
 
   // gather all file data as an array of objects
@@ -23,13 +22,13 @@ function shareFiles() {
       let schoolId = thisStudent.schoolId
       
       // add in additional viewers for all school access and editors to avoid extra sharing
-      if (schoolId == '200'){
-        // console.log('high')
-        teachers = [...teachers, ...settings.high, ...line.editors.split(',')]
-      } else if (schoolId == '100'){
-        // console.log('middle')
-        teachers = [...teachers, ...settings.middle, ...line.editors.split(',')]
-      }
+      if (schoolId == '295'){
+    
+        teachers = [...teachers, ...settings.swa, ...line.editors.split(',')]
+      } //else if (schoolId == '100'){
+     
+      //   teachers = [...teachers, ...settings.middle, ...line.editors.split(',')]
+      // }
 
       let currentViewers = []
       if (line.viewers !== ''){
