@@ -21,7 +21,9 @@ const settings = {
 function shareIEPwithTeachers(){
 
   if(settings.isOn == 'On'){
-  
+    
+    getCoteacherDataFromPS()
+    
     getAllChildFolders()
 
     getCurrentPSSectionEnrollments()
@@ -95,9 +97,11 @@ function getPermisionsForFile(fileId='1uX3QwCgDDhN6etcrWD7TxV9c0LUjaxFR'){
   let file = DriveApp.getFileById(fileId)
   let results
   try {
-    // let owner = file.getOwner().getEmail();
+    let owner = file.getOwner().getEmail();
     let editors = file.getEditors().map(e => e.getEmail())
     let viewers = file.getViewers().map(v => v.getEmail())
+
+    editors.push(owner)
     results = [editors, viewers];
   } catch(e) {
     results = [[], []];
