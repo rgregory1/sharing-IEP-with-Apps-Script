@@ -102,7 +102,14 @@ function gatherStudentTeachers() {
     let teacherList = sectionData.filter(x => x.studentId == line)
 
     // filter out if not current teacher
-    let currentTeachers = filterByDate(teacherList, todaysDate).map(x => x.teacher_email)
+    // let currentTeachers = filterByDate(teacherList, todaysDate).map(x => x.teacher_email)
+    let currentTeachers = teacherList.map(x => x.teacher_email)
+
+    // account for coteachers, split thos strings up
+    currentTeachers = currentTeachers.flatMap(item => {
+        // If the item contains a comma, split it; otherwise, keep it as is
+        return item.includes(",") ? item.split(",") : item;
+      });
 
     // add data if student has current enrollments
     if(currentTeachers.length > 0){
@@ -122,13 +129,21 @@ function gatherStudentTeachers() {
 }
 
 
-
-
-function addViewerToFile(fileId='1QY33UkeMCxf23qsHsolJK1IQK-1LfPJL', email='nhs10mvu2024@mvsdschools.org'){
-  let file = DriveApp.getFileById(fileId)
+function addViewerToFile(fileId, email){
+  
   let results 
   try {
-    let info = file.addViewer(email)
+    let info = Drive.Permissions.create(
+                                          {
+                                              'role': 'reader', 
+                                              'type': 'user', 
+                                              'emailAddress': email 
+                                          }, 
+                                          fileId, 
+                                          { 
+                                              'sendNotificationEmail': false
+                                          }
+                                      ); 
     results = 'A - ' + email
     
   } catch(e) {
@@ -138,6 +153,21 @@ function addViewerToFile(fileId='1QY33UkeMCxf23qsHsolJK1IQK-1LfPJL', email='nhs1
 
   return results
 }
+
+// function addViewerToFile(fileId='1QY33UkeMCxf23qsHsolJK1IQK-1LfPJL', email='nhs10mvu2024@mvsdschools.org'){
+//   let file = DriveApp.getFileById(fileId)
+//   let results 
+//   try {
+//     let info = file.addViewer(email)
+//     results = 'A - ' + email
+    
+//   } catch(e) {
+//     console.log('Error: ' + e.toString())
+//     results = 'A - ' + email + ' - Error: ' + e.toString()
+//   }
+
+//   return results
+// }
 
 function removeViewerFromFile(fileId,email){
   let file = DriveApp.getFileById(fileId)
